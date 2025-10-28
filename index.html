@@ -5,37 +5,85 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Agamya Cybertech — Metadata Analyzer (Tech Grid Neon)</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
 <style>
-  :root{
-    --bg:#0A192F; --glow:#00FFFF; --accent:#1E90FF; --card:#071227; --muted:#8fb2d9;
-  }
-  html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Helvetica,Arial,sans-serif;background:linear-gradient(180deg, #061226 0%, #071227 100%);color:#e6f7ff;}
-  .container{max-width:1100px;margin:18px auto;padding:22px;background:linear-gradient(180deg, rgba(7,18,39,0.6), rgba(4,9,20,0.55));border-radius:12px;box-shadow:0 8px 30px rgba(2,10,22,0.7);border:1px solid rgba(0,255,255,0.06);}
-  header{display:flex;align-items:center;gap:14px;padding-bottom:8px}
-  .logo{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,var(--glow),var(--accent));display:flex;align-items:center;justify-content:center;color:#001F2F;font-weight:800;font-family:Orbitron,monospace;box-shadow:0 6px 18px rgba(0,255,255,0.06);border:1px solid rgba(255,255,255,0.04)}
-  h1{margin:0;font-family:Orbitron,monospace;font-size:18px;letter-spacing:0.6px}
-  p.lead{margin:4px 0 6px;color:var(--muted);font-size:13px}
-  .grid{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:12px}
-  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
-  .drop{min-height:220px;border:2px dashed rgba(0,255,255,0.08);display:flex;align-items:center;justify-content:center;flex-direction:column;border-radius:10px;background-image:radial-gradient(circle at 10% 10%, rgba(0,255,255,0.02), transparent 20%);position:relative}
-  .drop.hover{border-color:rgba(0,255,255,0.25);box-shadow:0 8px 30px rgba(0,255,255,0.03) inset}
-  .btn{background:linear-gradient(90deg,var(--glow),var(--accent));color:#001f2f;padding:8px 12px;border-radius:8px;border:none;font-weight:700;cursor:pointer}
-  input[type=file]{display:none}
-  .meta{font-family:monospace;white-space:pre-wrap;background:linear-gradient(180deg, rgba(1,10,20,0.3), rgba(1,10,20,0.2));padding:12px;border-radius:8px;max-height:360px;overflow:auto;border:1px solid rgba(0,255,255,0.03)}
-  .small{font-size:13px;color:var(--muted)}
-  footer{margin-top:14px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}
-  .tagline{font-family:Orbitron,monospace;color:var(--glow);font-weight:700}
-  .qr{width:100%;height:86px;border-radius:8px;background:linear-gradient(90deg, rgba(0,255,255,0.02), rgba(30,144,255,0.02));display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px}
-  .img-preview,.video-preview{max-width:100%;border-radius:8px;margin-top:8px;border:1px solid rgba(255,255,255,0.03)}
-  .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-  .muted{color:var(--muted)}
-  .tab-buttons{display:flex;gap:8px;margin-bottom:10px}
-  .tab{padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.01);cursor:pointer;border:1px solid rgba(255,255,255,0.02)}
-  .tab.active{background:linear-gradient(90deg,var(--glow),var(--accent));color:#001f2f;font-weight:700}
-  @media(max-width:900px){.grid{grid-template-columns:1fr;}.container{margin:8px;padding:12px}}
+:root {
+  --bg:#0A192F; --glow:#00FFFF; --accent:#1E90FF;
+  --card:#071227; --muted:#8fb2d9;
+}
+html, body {
+  height:100%; margin:0;
+  font-family:Inter,Segoe UI,Helvetica,Arial,sans-serif;
+  background:linear-gradient(180deg,#061226 0%,#071227 100%);
+  color:#e6f7ff;
+}
+.container {
+  max-width:1100px; margin:18px auto; padding:22px;
+  background:linear-gradient(180deg,rgba(7,18,39,0.6),rgba(4,9,20,0.55));
+  border-radius:12px; box-shadow:0 8px 30px rgba(2,10,22,0.7);
+  border:1px solid rgba(0,255,255,0.06);
+}
+header {display:flex;align-items:center;gap:14px;padding-bottom:8px}
+.logo {
+  width:56px;height:56px;border-radius:8px;
+  background:linear-gradient(135deg,var(--glow),var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  color:#001F2F;font-weight:800;font-family:Orbitron,monospace;
+}
+h1{margin:0;font-family:Orbitron,monospace;font-size:18px;letter-spacing:0.6px}
+p.lead{margin:4px 0 6px;color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:12px}
+.card{
+  background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+  padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)
+}
+.drop{
+  min-height:220px;border:2px dashed rgba(0,255,255,0.08);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  border-radius:10px;background-image:radial-gradient(circle at 10% 10%,rgba(0,255,255,0.02),transparent 20%);
+}
+.btn{
+  background:linear-gradient(90deg,var(--glow),var(--accent));
+  color:#001f2f;padding:8px 12px;border-radius:8px;border:none;
+  font-weight:700;cursor:pointer;text-decoration:none;text-align:center
+}
+input[type=file]{display:none}
+.meta{
+  font-family:monospace;white-space:pre-wrap;
+  background:linear-gradient(180deg,rgba(1,10,20,0.3),rgba(1,10,20,0.2));
+  padding:12px;border-radius:8px;max-height:360px;overflow:auto;
+  border:1px solid rgba(0,255,255,0.03)
+}
+.small{font-size:13px;color:var(--muted)}
+footer{margin-top:14px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}
+.tagline{font-family:Orbitron,monospace;color:var(--glow);font-weight:700}
+.qr{
+  width:100%;height:140px;border-radius:8px;
+  background:linear-gradient(90deg,rgba(0,255,255,0.02),rgba(30,144,255,0.02));
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;
+  color:var(--muted);font-size:12px
+}
+.img-preview{max-width:100%;border-radius:8px;margin-top:8px;border:1px solid rgba(255,255,255,0.03)}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.tab-buttons{display:flex;gap:8px;margin-bottom:10px}
+.tab{padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.01);cursor:pointer;border:1px solid rgba(255,255,255,0.02)}
+.tab.active{background:linear-gradient(90deg,var(--glow),var(--accent));color:#001f2f;font-weight:700}
+#mapPreview iframe{border-radius:8px;box-shadow:0 2px 10px rgba(0,255,255,0.05);}
+.map-btn{margin-top:8px;display:inline-block}
+.meta-section{margin-top:12px;border-top:1px solid rgba(255,255,255,0.05);padding-top:12px}
+.meta-section-title{font-weight:700;color:var(--glow);margin-bottom:6px;font-size:14px}
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.meta-item{display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.03);padding:4px 0}
+.meta-label{color:var(--muted)}
+.meta-value{font-weight:500}
+@media(max-width:900px){.grid{grid-template-columns:1fr;}.container{margin:8px;padding:12px}}
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/exifr/dist/full.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 </head>
 <body>
+
 <div class="container" role="main">
   <header>
     <div class="logo">AC</div>
@@ -48,23 +96,20 @@
   <div class="grid">
     <div class="card">
       <div class="tab-buttons">
-        <div class="tab active" id="tabImage">Image</div>
-        <div class="tab" id="tabVideo">Video</div>
+        <div class="tab active">Image</div>
       </div>
 
       <div id="imageArea">
-        <div class="drop" id="dropImg">
-          <div style="text-align:center">
-            <p style="margin:0;font-weight:700;color:var(--glow)">Drag & drop an image here</p>
-            <p class="small muted">or</p>
-            <label class="btn" for="fileImage" id="chooseImg">Choose Image</label>
-            <input id="fileImage" accept="image/*" type="file">
-          </div>
+        <div class="drop">
+          <p style="margin:0;font-weight:700;color:var(--glow)">Drag & drop an image here</p>
+          <p class="small muted">or</p>
+          <label class="btn" for="fileImage">Choose Image</label>
+          <input id="fileImage" accept="image/*" type="file">
           <img id="previewImg" class="img-preview" style="display:none">
         </div>
 
         <div class="controls">
-          <button id="cleanImg" class="btn" title="Create a copy with metadata removed">Clean Metadata (Download)</button>
+          <button id="cleanImg" class="btn">Clean Metadata (Download)</button>
           <button id="deleteImg" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)">Delete Upload</button>
           <button id="clearImg" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)">Clear Data</button>
         </div>
@@ -72,57 +117,51 @@
         <div style="margin-top:12px" id="metaAreaImg">
           <div class="small muted">Image Metadata</div>
           <pre class="meta" id="metaImg">No image loaded.</pre>
-        </div>
-      </div>
-
-      <div id="videoArea" style="display:none">
-        <div class="drop" id="dropVid">
-          <div style="text-align:center">
-            <p style="margin:0;font-weight:700;color:var(--glow)">Drag & drop a video here</p>
-            <p class="small muted">or</p>
-            <label class="btn" for="fileVideo" id="chooseVid">Choose Video</label>
-            <input id="fileVideo" accept="video/*" type="file">
+          
+          <!-- Enhanced Metadata Display -->
+          <div id="enhancedMeta" style="display:none;">
+            <div class="meta-section">
+              <div class="meta-section-title">Basic Information</div>
+              <div class="meta-grid" id="basicInfo"></div>
+            </div>
+            
+            <div class="meta-section">
+              <div class="meta-section-title">Camera Information</div>
+              <div class="meta-grid" id="cameraInfo"></div>
+            </div>
+            
+            <div class="meta-section">
+              <div class="meta-section-title">GPS Location</div>
+              <div id="gpsInfo"></div>
+            </div>
+            
+            <div class="meta-section">
+              <div class="meta-section-title">Image Details</div>
+              <div class="meta-grid" id="imageDetails"></div>
+            </div>
           </div>
-          <video id="previewVid" class="video-preview" style="display:none" controls></video>
-        </div>
 
-        <div class="controls">
-          <button id="cleanVid" class="btn">Clean Metadata (Download)</button>
-          <button id="deleteVid" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)">Delete Upload</button>
-          <button id="clearVid" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)">Clear Data</button>
-        </div>
-
-        <div style="margin-top:12px" id="metaAreaVid">
-          <div class="small muted">Video Metadata</div>
-          <pre class="meta" id="metaVid">No video loaded.</pre>
+          <div id="mapPreview" style="display:none; margin-top:10px; border:1px solid rgba(0,255,255,0.1); border-radius:8px; overflow:hidden;">
+            <iframe id="mapFrame" width="100%" height="200" style="border:0;" loading="lazy"></iframe>
+          </div>
+          <a id="mapLink" class="btn map-btn" href="#" target="_blank" style="display:none;">📍 Open in Google Maps</a>
         </div>
       </div>
-
     </div>
 
     <aside class="card">
-      <div class="small muted"><strong>Privacy:</strong> This runs on your device. Files are NOT uploaded to any server unless you permit an external CDN to load optional libraries. For full offline usage, download the required libraries (instructions in README).</div>
-
+      <div class="small muted"><strong>Privacy:</strong> This runs locally — files are never uploaded.</div>
       <div style="margin-top:12px">
-        <div class="small muted"><strong>How to let attendees connect:</strong></div>
+        <div class="small muted"><strong>How to share locally:</strong></div>
         <ol class="small muted">
-          <li>Place files in one folder and run <code>python3 -m http.server 8000</code> from the folder.</li>
-          <li>Find your laptop IP (see README). Share <code>http://YOUR_IP:8000</code> or print QR.</li>
-          <li>Attendees open the URL on their phones — everything runs in-browser.</li>
+          <li>Run <code>python3 -m http.server 8000</code></li>
+          <li>Share <code>http://YOUR_IP:8000</code></li>
         </ol>
       </div>
-
-      <div style="margin-top:12px">
-        <div class="small muted"><strong>Notes:</strong></div>
-        <ul class="small muted">
-          <li>Image cleaning: Draws the image on canvas and exports — removes EXIF.</li>
-          <li>Video cleaning: Attempts to run ffmpeg.wasm (if present) to remux video without metadata. If ffmpeg is not available, a basic download of the file is provided (no cleaning).</li>
-          <li>For full EXIF details, include <code>exifr.min.js</code> in the folder (optional).</li>
-        </ul>
+      <div style="margin-top:18px">
+        <div class="small muted"><strong>QR Upload:</strong></div>
+        <div id="qrBox" class="qr">Generating QR...</div>
       </div>
-
-      <div style="margin-top:12px" class="qr" id="qr">Share: http://YOUR_IP:8000</div>
-
       <footer style="margin-top:12px">
         <div class="tagline">Think Before You Post</div>
         <div class="muted">Agamya Cybertech • © 2025</div>
@@ -132,168 +171,282 @@
 </div>
 
 <script>
-/* Lightweight loader for exifr and ffmpeg.wasm (optional). If not present, app falls back gracefully. */
-(async function(){
-  async function loadScript(src){
-    return new Promise((res)=>{ const s=document.createElement('script'); s.src=src; s.onload=()=>res(true); s.onerror=()=>res(false); document.head.appendChild(s); });
-  }
-  const localExifr = 'exifr.min.js';
-  const cdnExifr = 'https://cdn.jsdelivr.net/npm/exifr/dist/full.umd.min.js';
-  await loadScript(localExifr) || await loadScript(cdnExifr);
+// Utility: readable file size
+function humanSize(n){if(!n)return"";const u=["B","KB","MB","GB"];let i=0;while(n>1024&&i<u.length-1){n/=1024;i++;}return n.toFixed(2)+" "+u[i];}
+function showMeta(el,obj){try{el.textContent=JSON.stringify(obj,null,2);}catch(e){el.textContent=String(obj);} }
 
-  const localFfmpeg = 'ffmpeg.min.js';
-  const cdnFfmpeg = 'https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js';
-  const ffLoaded = await loadScript(localFfmpeg) || await loadScript(cdnFfmpeg);
-  if(ffLoaded && window.createFFmpeg){
-    window._ffmpeg = window.createFFmpeg({log:false});
-    try{ await window._ffmpeg.load(); console.log('ffmpeg ready'); }catch(e){ console.warn('ffmpeg load failed', e); window._ffmpeg = null; }
-  } else { window._ffmpeg = null; }
-})();
-</script>
+const fileImage=document.getElementById('fileImage');
+const previewImg=document.getElementById('previewImg');
+const metaImg=document.getElementById('metaImg');
+const mapBox=document.getElementById('mapPreview');
+const mapFrame=document.getElementById('mapFrame');
+const mapLink=document.getElementById('mapLink');
+const cleanImg=document.getElementById('cleanImg');
+const deleteImg=document.getElementById('deleteImg');
+const clearImg=document.getElementById('clearImg');
+const enhancedMeta = document.getElementById('enhancedMeta');
+const basicInfo = document.getElementById('basicInfo');
+const cameraInfo = document.getElementById('cameraInfo');
+const gpsInfo = document.getElementById('gpsInfo');
+const imageDetails = document.getElementById('imageDetails');
 
-<script>
-/* Main UI logic (images + videos) */
-const fileImage = document.getElementById('fileImage');
-const fileVideo = document.getElementById('fileVideo');
-const previewImg = document.getElementById('previewImg');
-const previewVid = document.getElementById('previewVid');
-const metaImg = document.getElementById('metaImg');
-const metaVid = document.getElementById('metaVid');
-
-const dropImg = document.getElementById('dropImg');
-const dropVid = document.getElementById('dropVid');
-
-const cleanImg = document.getElementById('cleanImg');
-const deleteImg = document.getElementById('deleteImg');
-const clearImg = document.getElementById('clearImg');
-
-const cleanVid = document.getElementById('cleanVid');
-const deleteVid = document.getElementById('deleteVid');
-const clearVid = document.getElementById('clearVid');
-
-const tabImage = document.getElementById('tabImage');
-const tabVideo = document.getElementById('tabVideo');
-const imageArea = document.getElementById('imageArea');
-const videoArea = document.getElementById('videoArea');
-
-tabImage.addEventListener('click', ()=>{ tabImage.classList.add('active'); tabVideo.classList.remove('active'); imageArea.style.display='block'; videoArea.style.display='none'; });
-tabVideo.addEventListener('click', ()=>{ tabVideo.classList.add('active'); tabImage.classList.remove('active'); imageArea.style.display='none'; videoArea.style.display='block'; });
-
-function humanSize(n){ if(!n) return ""; const units=["B","KB","MB","GB"]; let i=0; while(n>1024 && i<units.length-1){ n/=1024; i++; } return n.toFixed(2)+" "+units[i]; }
-
-function showMeta(el, obj){ try{ el.textContent = JSON.stringify(obj, null, 2); }catch(e){ el.textContent = String(obj); } }
-
+// Enhanced metadata extraction
 async function extractImageMetadata(file){
-  const info = { name: file.name, size: humanSize(file.size), type: file.type, lastModified: new Date(file.lastModified).toString() };
+  const info={
+    name: file.name,
+    size: humanSize(file.size),
+    type: file.type,
+    lastModified: new Date(file.lastModified).toString()
+  };
+  
   const imgURL = URL.createObjectURL(file);
   const img = new Image();
   img.src = imgURL;
-  await img.decode().catch(()=>{});
-  info.width = img.naturalWidth || null;
-  info.height = img.naturalHeight || null;
+  await img.decode().catch(() => {});
+  
+  info.width = img.naturalWidth;
+  info.height = img.naturalHeight;
+  info.aspectRatio = (img.naturalWidth / img.naturalHeight).toFixed(2);
+  
   if(window.exifr && window.exifr.parse){
     try{
-      const exif = await window.exifr.parse(file, {gps:true, tiff:true, exif:true, ifd0:true, image:true});
-      if(exif) info.exif = exif;
-      if(exif && exif.gps){
-        const {latitude, longitude} = exif.gps;
-        if(latitude && longitude) info.location = {latitude, longitude, maps:`https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`};
+      const exif = await window.exifr.parse(file, {
+        gps: true,
+        exif: true,
+        xmp: true,
+        iptc: true,
+        icc: true,
+        jfif: true,
+        tiff: true,
+        interop: true
+      });
+      
+      if(exif) {
+        info.exif = exif;
+        
+        // Extract GPS data
+        if(exif.latitude && exif.longitude){
+          info.location = {
+            latitude: exif.latitude,
+            longitude: exif.longitude,
+            maps: `https://www.google.com/maps/search/?api=1&query=${exif.latitude},${exif.longitude}`
+          };
+        }
+        
+        // Extract camera information
+        if(exif.make || exif.model) {
+          info.camera = {
+            make: exif.make,
+            model: exif.model,
+            software: exif.Software,
+            lens: exif.LensModel
+          };
+        }
+        
+        // Extract exposure information
+        if(exif.exposureTime || exif.fNumber || exif.ISO) {
+          info.exposure = {
+            exposureTime: exif.exposureTime,
+            fNumber: exif.fNumber,
+            ISO: exif.ISO,
+            focalLength: exif.focalLength,
+            flash: exif.flash
+          };
+        }
+        
+        // Extract date information
+        if(exif.DateTimeOriginal || exif.CreateDate || exif.ModifyDate) {
+          info.dates = {
+            created: exif.DateTimeOriginal,
+            modified: exif.ModifyDate,
+            digitized: exif.CreateDate
+          };
+        }
       }
-    }catch(e){ info.exifError = String(e); }
-  } else {
-    info.note = "exifr not loaded; include exifr.min.js for richer EXIF details.";
+    } catch(e) {
+      info.exifError = String(e);
+    }
   }
+  
   return {info, imgURL};
 }
 
+// Display enhanced metadata in structured format
+function displayEnhancedMetadata(info) {
+  // Basic Information
+  basicInfo.innerHTML = `
+    <div class="meta-item"><span class="meta-label">Filename:</span><span class="meta-value">${info.name}</span></div>
+    <div class="meta-item"><span class="meta-label">File Size:</span><span class="meta-value">${info.size}</span></div>
+    <div class="meta-item"><span class="meta-label">Dimensions:</span><span class="meta-value">${info.width} × ${info.height}</span></div>
+    <div class="meta-item"><span class="meta-label">Aspect Ratio:</span><span class="meta-value">${info.aspectRatio}</span></div>
+    <div class="meta-item"><span class="meta-label">File Type:</span><span class="meta-value">${info.type}</span></div>
+    <div class="meta-item"><span class="meta-label">Last Modified:</span><span class="meta-value">${info.lastModified}</span></div>
+  `;
+  
+  // Camera Information
+  let cameraHTML = '<div class="meta-item"><span class="meta-label">No camera data found</span></div>';
+  if (info.camera) {
+    cameraHTML = '';
+    if (info.camera.make) cameraHTML += `<div class="meta-item"><span class="meta-label">Make:</span><span class="meta-value">${info.camera.make}</span></div>`;
+    if (info.camera.model) cameraHTML += `<div class="meta-item"><span class="meta-label">Model:</span><span class="meta-value">${info.camera.model}</span></div>`;
+    if (info.camera.software) cameraHTML += `<div class="meta-item"><span class="meta-label">Software:</span><span class="meta-value">${info.camera.software}</span></div>`;
+    if (info.camera.lens) cameraHTML += `<div class="meta-item"><span class="meta-label">Lens:</span><span class="meta-value">${info.camera.lens}</span></div>`;
+  }
+  cameraInfo.innerHTML = cameraHTML;
+  
+  // GPS Information
+  let gpsHTML = '<div class="meta-item"><span class="meta-label">No GPS data found</span></div>';
+  if (info.location) {
+    gpsHTML = `
+      <div class="meta-item"><span class="meta-label">Latitude:</span><span class="meta-value">${info.location.latitude}</span></div>
+      <div class="meta-item"><span class="meta-label">Longitude:</span><span class="meta-value">${info.location.longitude}</span></div>
+    `;
+  }
+  gpsInfo.innerHTML = gpsHTML;
+  
+  // Image Details
+  let imageDetailsHTML = '<div class="meta-item"><span class="meta-label">No exposure data found</span></div>';
+  if (info.exposure) {
+    imageDetailsHTML = '';
+    if (info.exposure.exposureTime) imageDetailsHTML += `<div class="meta-item"><span class="meta-label">Exposure:</span><span class="meta-value">${info.exposure.exposureTime}s</span></div>`;
+    if (info.exposure.fNumber) imageDetailsHTML += `<div class="meta-item"><span class="meta-label">Aperture:</span><span class="meta-value">f/${info.exposure.fNumber}</span></div>`;
+    if (info.exposure.ISO) imageDetailsHTML += `<div class="meta-item"><span class="meta-label">ISO:</span><span class="meta-value">${info.exposure.ISO}</span></div>`;
+    if (info.exposure.focalLength) imageDetailsHTML += `<div class="meta-item"><span class="meta-label">Focal Length:</span><span class="meta-value">${info.exposure.focalLength}mm</span></div>`;
+  }
+  imageDetails.innerHTML = imageDetailsHTML;
+  
+  enhancedMeta.style.display = 'block';
+}
+
 async function handleImageFile(file){
-  metaImg.textContent = "Reading…";
+  metaImg.textContent="Reading…";
+  enhancedMeta.style.display = 'none';
+  
   const {info, imgURL} = await extractImageMetadata(file);
   showMeta(metaImg, info);
-  previewImg.src = imgURL; previewImg.style.display='block';
-  previewImg.onload = ()=>{ URL.revokeObjectURL(imgURL); };
-  cleanImg.dataset.fileName = file.name.replace(/\.(?=[^.]+$)/,'-clean.');
-  cleanImg.dataset.mime = file.type || 'image/jpeg';
-  deleteImg.onclick = ()=>{ fileImage.value=''; previewImg.style.display='none'; metaImg.textContent='No image loaded.'; };
-  clearImg.onclick = ()=>{ metaImg.textContent='No image loaded.'; };
+  previewImg.src = imgURL;
+  previewImg.style.display = 'block';
+  
+  // Display enhanced metadata
+  displayEnhancedMetadata(info);
+  
+  if(info.location){
+    const lat = info.location.latitude, lon = info.location.longitude;
+    mapFrame.src = `https://www.google.com/maps?q=${lat},${lon}&output=embed`;
+    mapBox.style.display = 'block';
+    mapLink.href = info.location.maps;
+    mapLink.style.display = 'inline-block';
+  } else {
+    mapBox.style.display = 'none';
+    mapLink.style.display = 'none';
+  }
+  
+  deleteImg.onclick = () => {
+    fileImage.value = '';
+    previewImg.style.display = 'none';
+    metaImg.textContent = 'No image loaded.';
+    enhancedMeta.style.display = 'none';
+    mapBox.style.display = 'none';
+    mapLink.style.display = 'none';
+  };
+  
+  clearImg.onclick = () => {
+    metaImg.textContent = 'No image loaded.';
+    enhancedMeta.style.display = 'none';
+    mapBox.style.display = 'none';
+    mapLink.style.display = 'none';
+  };
 }
 
-fileImage.addEventListener('change', (e)=>{ const f = e.target.files[0]; if(f) handleImageFile(f); });
-['dragenter','dragover'].forEach(ev=>{ dropImg.addEventListener(ev,(e)=>{ e.preventDefault(); dropImg.classList.add('hover'); });});
-['dragleave','drop'].forEach(ev=>{ dropImg.addEventListener(ev,(e)=>{ e.preventDefault(); dropImg.classList.remove('hover'); });});
-dropImg.addEventListener('drop',(e)=>{ const f = e.dataTransfer.files && e.dataTransfer.files[0]; if(f){ fileImage.files = e.dataTransfer.files; handleImageFile(f);} });
+fileImage.addEventListener('change', e => {
+  const f = e.target.files[0];
+  if(f) handleImageFile(f);
+});
 
-cleanImg.addEventListener('click', async ()=>{
-  const files = fileImage.files; if(!files || files.length===0){ alert("Load an image first"); return; }
+// Clean metadata and download
+cleanImg.addEventListener('click', async () => {
+  const files = fileImage.files;
+  if(!files || !files.length) {
+    alert("Load an image first");
+    return;
+  }
+  
   const file = files[0];
   const img = new Image();
-  const url = URL.createObjectURL(file); img.src = url; await img.decode().catch(()=>{});
-  const canvas = document.createElement('canvas'); canvas.width = img.naturalWidth || img.width; canvas.height = img.naturalHeight || img.height;
-  const ctx = canvas.getContext('2d'); ctx.drawImage(img,0,0);
-  const mime = (file.type && file.type.startsWith('image/png')) ? 'image/png' : 'image/jpeg';
-  canvas.toBlob((blob)=>{ const a=document.createElement('a'); const cleanedName = (file.name || 'image').replace(/\.(?=[^.]+$)/,'-clean.'); a.href = URL.createObjectURL(blob); a.download = cleanedName; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); }, mime, 0.92);
-});
-
-// VIDEO HANDLERS
-async function extractVideoMetadata(file){
-  const info = { name: file.name, size: humanSize(file.size), type: file.type, lastModified: new Date(file.lastModified).toString() };
   const url = URL.createObjectURL(file);
-  info.url = url;
-  // Basic HTML5 metadata
-  await new Promise((res)=>{ const v = document.createElement('video'); v.preload='metadata'; v.src = url; v.onloadedmetadata = ()=>{ info.duration = v.duration; info.width = v.videoWidth; info.height = v.videoHeight; res(); }; v.onerror = ()=>{ res(); }; });
-  if(window._ffmpeg){
-    try{
-      const { _ffmpeg } = window;
-      const name = 'input.' + (file.name.split('.').pop() || 'mp4');
-      const data = await file.arrayBuffer();
-      _ffmpeg.FS('writeFile', name, new Uint8Array(data));
-      await _ffmpeg.run('-i', name);
-      info.ffmpeg = 'probe attempted';
-      _ffmpeg.FS('unlink', name);
-    }catch(e){ info.ffmpegError = String(e); }
-  } else {
-    info.note = "ffmpeg.wasm not loaded; include ffmpeg scripts for deeper video metadata and cleaning.";
-  }
-  return info;
-}
-
-async function handleVideoFile(file){
-  metaVid.textContent = "Reading…";
-  const info = await extractVideoMetadata(file);
-  showMeta(metaVid, info);
-  previewVid.src = info.url; previewVid.style.display='block';
-  deleteVid.onclick = ()=>{ fileVideo.value=''; previewVid.pause(); previewVid.src=''; previewVid.style.display='none'; metaVid.textContent='No video loaded.'; };
-  clearVid.onclick = ()=>{ metaVid.textContent='No video loaded.'; };
-}
-
-fileVideo.addEventListener('change', (e)=>{ const f = e.target.files[0]; if(f) handleVideoFile(f); });
-['dragenter','dragover'].forEach(ev=>{ dropVid.addEventListener(ev,(e)=>{ e.preventDefault(); dropVid.classList.add('hover'); });});
-['dragleave','drop'].forEach(ev=>{ dropVid.addEventListener(ev,(e)=>{ e.preventDefault(); dropVid.classList.remove('hover'); });});
-dropVid.addEventListener('drop',(e)=>{ const f = e.dataTransfer.files && e.dataTransfer.files[0]; if(f){ fileVideo.files = e.dataTransfer.files; handleVideoFile(f);} });
-
-cleanVid.addEventListener('click', async ()=>{
-  const files = fileVideo.files; if(!files || files.length===0){ alert("Load a video first"); return; }
-  const file = files[0];
-  if(window._ffmpeg){
-    try{
-      const { _ffmpeg } = window;
-      const originalName = 'input.' + (file.name.split('.').pop() || 'mp4');
-      const outName = 'output.' + (file.name.split('.').pop() || 'mp4');
-      const data = await file.arrayBuffer();
-      _ffmpeg.FS('writeFile', originalName, new Uint8Array(data));
-      await _ffmpeg.run('-i', originalName, '-map', '0', '-c', 'copy', '-map_metadata', '-1', outName);
-      const outData = _ffmpeg.FS('readFile', outName);
-      const blob = new Blob([outData.buffer], {type: file.type || 'video/mp4'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file.name.replace(/\.(?=[^.]+$)/,'-clean.'); document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      _ffmpeg.FS('unlink', originalName); _ffmpeg.FS('unlink', outName);
-    }catch(e){
-      alert('Video cleaning failed: ' + e.message);
-    }
-  } else {
-    alert('ffmpeg.wasm not loaded. For video cleaning, download ffmpeg.wasm JS bundle into this folder or allow CDN access. See README.');
-  }
+  img.src = url;
+  await img.decode().catch(() => {});
+  
+  const canvas = document.createElement('canvas');
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  canvas.getContext('2d').drawImage(img, 0, 0);
+  
+  const mime = (file.type && file.type.startsWith('image/png')) ? 'image/png' : 'image/jpeg';
+  canvas.toBlob(b => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(b);
+    a.download = file.name.replace(/\.(?=[^.]+$)/, '-clean.');
+    a.click();
+  }, mime, 0.92);
 });
 
+// Generate QR code
+(function setupQR(){
+  const qrBox = document.getElementById('qrBox');
+  try {
+    new QRCode(qrBox, {
+      text: window.location.href,
+      width: 110,
+      height: 110,
+      colorDark: "#00FFFF",
+      colorLight: "#071227"
+    });
+    qrBox.innerHTML += "<div class='small muted'>Scan to open on phone</div>";
+  } catch(err) {
+    qrBox.textContent = "Failed to generate QR.";
+  }
+})();
+
+// Add drag and drop functionality
+const dropArea = document.querySelector('.drop');
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, preventDefaults, false);
+});
+
+function preventDefaults(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+['dragenter', 'dragover'].forEach(eventName => {
+  dropArea.addEventListener(eventName, highlight, false);
+});
+
+['dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, unhighlight, false);
+});
+
+function highlight() {
+  dropArea.style.borderColor = 'var(--glow)';
+  dropArea.style.backgroundColor = 'rgba(0, 255, 255, 0.05)';
+}
+
+function unhighlight() {
+  dropArea.style.borderColor = 'rgba(0, 255, 255, 0.08)';
+  dropArea.style.backgroundColor = '';
+}
+
+dropArea.addEventListener('drop', handleDrop, false);
+
+function handleDrop(e) {
+  const dt = e.dataTransfer;
+  const files = dt.files;
+  
+  if (files.length) {
+    handleImageFile(files[0]);
+  }
+}
 </script>
 </body>
 </html>
